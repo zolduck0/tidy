@@ -20,4 +20,47 @@ case "$fileName" in
     exit 1
   fi
   ;;
+all)
+  zips=(*.zip)
+  echo "Grabbing all the .zip files inside $PWD..."
+  for file in "${zips[@]}"; do
+    echo "$file..."
+  done
+  echo "${#zips[@]} zip files found. Tidy the folder? (y/n)"
+
+  while true; do
+    read input
+
+    case "$input" in
+    y | Y)
+      for file in "${zips[@]}"; do
+        [ -e "$file" ] || continue
+
+        newName="${file// /_}"
+        if [ "$file" != "$newName" ]; then
+          mv "$file" "$newName"
+        fi
+
+        echo "Unzipping $file"
+        unzip $file
+        status=$?
+
+        if [ $status -eq 0 ]; then
+          rm $file
+          echo "Removing $file..."
+        fi
+      done
+
+      echo "Folder tidied."
+      exit 0
+      ;;
+    n | N)
+      exit 0
+      ;;
+    *)
+      echo "Please select y or n"
+      ;;
+    esac
+  done
+  ;;
 esac
