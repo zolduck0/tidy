@@ -3,14 +3,17 @@
 fileName="$1"
 
 if [ -z "$fileName" ]; then
-  echo "tidy [zip file] - Extracts the zip file and deletes it afterwards."
+  echo "tidy [zip file] - Extracts the zip file to a folder with its name and deletes it afterwards."
   echo "tidy all - Extracts all the zip files in the current folder to a folder with their name and delete the zip files afterwards."
   exit 0
 fi
 
 case "$fileName" in
 *.zip)
-  unzip "$fileName"
+  folderName="${fileName%.zip}"
+  mkdir -p "$folderName"
+
+  unzip "$fileName" -d "$folderName"
   status=$?
 
   if [ $status -eq 0 ]; then
