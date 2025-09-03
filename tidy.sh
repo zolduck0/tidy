@@ -35,6 +35,8 @@ all)
     y | Y)
       for file in "${zips[@]}"; do
         [ -e "$file" ] || continue
+        folderName="${file%.zip}"
+        mkdir -p "$folderName"
 
         newName="${file// /_}"
         if [ "$file" != "$newName" ]; then
@@ -43,7 +45,7 @@ all)
         fi
 
         echo "Unzipping $file"
-        unzip $file
+        unzip $file -d "$folderName"
         status=$?
 
         if [ $status -eq 0 ]; then
