@@ -39,6 +39,7 @@ all)
         newName="${file// /_}"
         if [ "$file" != "$newName" ]; then
           mv "$file" "$newName"
+          file="$newName"
         fi
 
         echo "Unzipping $file"
