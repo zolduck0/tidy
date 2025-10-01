@@ -10,16 +10,15 @@ if [ -z "$URL" ]; then
 fi
 
 echo "Downloading latest build..."
-build=$(basename "$URL")
-curl -L -o "$build" "$URL"
+curl -L -o tidy.sh "$URL"
 
 if [ $? -ne 0 ]; then
   echo "Couldn't download latest build. Exiting."
   exit 1
 fi
 
-chmod +x "$build"
-sudo mv "$build" "/usr/local/bin/tidy"
+chmod +x tidy.sh
+sudo mv tidy.sh "/usr/local/bin/tidy"
 echo "tidy sucessfully installed. Thank you!"
 
 exit 0
